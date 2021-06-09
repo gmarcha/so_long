@@ -48,10 +48,19 @@ t_root	*root_init(void)
 
 	root = (t_root *)malloc(sizeof(t_root));
 	if (root == 0)
-		die("malloc()", errno);
+		die("root_init(): malloc()", errno);
 	root->mlx = 0;
 	root->mlx_win = 0;
 	root->mlx_img = 0;
+    root->mlx = mlx_init();
+    if (root->mlx == 0)
+    	root_destroy(root, "mlx_init(): can't load mlx", 0);
+    root->mlx_win = mlx_new_window(root->mlx, 1920, 1080, "Hello world!");
+    if (root->mlx_win == 0)
+		root_destroy(root, "mlx_new_window(): can't create a window", 0);
+    root->mlx_img = mlx_new_image(root->mlx, 1920, 1080);
+	if (root->mlx_img == 0)
+		root_destroy(root, "mlx_new_image(): can't create an image", 0);
 	return (root);
 }
 
@@ -59,13 +68,6 @@ int    key_hook(int keycode, t_root *root)
 {
     if (keycode == 65307)
     {
-/*
-        mlx_destroy_image(root->mlx, root->mlx_img);
-        mlx_destroy_window(root->mlx, root->mlx_win);
-        mlx_destroy_display(root->mlx);
-        free(root);
-        exit(0);
-*/
 		ft_putstr_fd("Thanks for playing!\nhttps://github.com/gmarcha\n", 1);
 		root_destroy(root, 0, 0);
     }
@@ -76,30 +78,7 @@ int    main(void)
 {
     t_root          *root;
 
-    root = (t_root *)malloc(sizeof(t_root));
-    if (root == 0)
-        exit (0);
-    root->mlx = mlx_init();
-    if (root->mlx == 0)
-    {
-        free(root);
-        exit(0);
-    }
-    root->mlx_win = mlx_new_window(root->mlx, 1920, 1080, "Hello world!");
-    if (root->mlx_win == 0)
-    {
-        mlx_destroy_display(root->mlx);
-        free(root);
-        exit(0);
-    }
-    root->mlx_img = mlx_new_image(root->mlx, 1920, 1080);
-	if (root->mlx_img == 0)
-    {
-        mlx_destroy_window(root->mlx, root->mlx_win);
-        mlx_destroy_display(root->mlx);
-        free(root);
-        exit(0);
-    }
+    root = root_init();
     mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
     mlx_hook(root->mlx_win, 2, (1L << 0), &key_hook, root);
     mlx_loop(root->mlx);
