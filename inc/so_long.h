@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:35:43 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/09 18:39:16 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/09 21:38:03 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_game
 	int			player_coll;
 	t_coord		exit_pos;
 	t_coord		*obj_pos;
+	int			obj_count;
 }				t_game;
 
 typedef struct s_root
