@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:35:43 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/07 18:38:08 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/09 18:39:16 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_game
 {
 	int			**map;
 	int			height;
-	int			size;
+	int			width;
 	t_coord		player_pos;
 	int			player_move;
 	int			player_coll;
