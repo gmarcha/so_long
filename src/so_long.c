@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/07 18:39:21 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/09 18:50:29 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,40 @@ void	root_destroy(t_root *root, char *errmsg, int errnum)
 	die(errmsg, errnum);
 }
 
+int		count_char(char *s, int c)
+{
+	int				count;
+	int				i;
+
+	count = 0;
+	i = 0;
+	while (s[i])
+		if (s[i++] == c)
+			count++;
+	return (count);
+}
+
 void	map_parsing(t_root *root, char *file)
 {
-	(void)root;
-	ft_putendl_fd(file, 1);	
+	int				count_line;
+	int				size_line;
+	int				i;
+	int				j;
+	
+	size_line = 0;
+	while (file[size_line] && file[size_line] != '\n')
+		size_line++;
+	if (size_line == 0)
+		root_destroy(root, "map is empty", )
+	count_line = 1;
+	i = size_line;
+	while (file[i])
+	{
+		j = 0;
+		while (file[i] && file[i] != '\n')
+			j++;
+		
+	}
 }
 
 void	map_init(t_root *root, char *filename)
