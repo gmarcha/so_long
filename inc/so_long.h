@@ -29,4 +29,7 @@ typedef struct s_root
     t_img            *mlx_img;
 }                t_root;
 
+void			mlx_draw_pixel(t_img *mlx_img, int x, int y, int color);
+unsigned int	mlx_rgb_to_int(int o, int r, int g, int b);
+
 #endif
