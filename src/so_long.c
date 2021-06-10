@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/10 17:09:42 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/10 17:11:28 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,27 +245,27 @@ static void	file_parse(t_root *root, char **file, char buf[], int fd)
 	}
 }
 
-// static void	file_read(t_root * root, char *file, char buf[], int fd)
-// {
-// 	int				ret;
+static void	file_read(t_root * root, char **file, char buf[], int fd)
+{
+	int				ret;
 
-// 	ret = 1;
-// 	while (ret != 0)
-// 	{
-// 		ret = read(fd, buf, 1024);
-// 		if (ret == -1)
-// 		{
-// 			free(file);
-// 			close(fd);
-// 			root_destroy(root, "map_init(): read()", errno);
-// 		}
-// 		else
-// 		{
-// 			buf[ret] = 0;
-// 			file_parse(root, &file, buf, fd);
-// 		}
-// 	}
-// }
+	ret = 1;
+	while (ret != 0)
+	{
+		ret = read(fd, buf, 1024);
+		if (ret == -1)
+		{
+			free(*file);
+			close(fd);
+			root_destroy(root, "map_init(): read()", errno);
+		}
+		else
+		{
+			buf[ret] = 0;
+			file_parse(root, file, buf, fd);
+		}
+	}
+}
 
 void	map_init(t_root *root, char *filename)
 {
@@ -278,25 +278,7 @@ void	map_init(t_root *root, char *filename)
 		root_destroy(root, filename, errno);
 	file = file_init(root, fd);
 
-	// file_read(root, file, buf, fd);
-	int				ret;
-
-	ret = 1;
-	while (ret != 0)
-	{
-		ret = read(fd, buf, 1024);
-		if (ret == -1)
-		{
-			free(file);
-			close(fd);
-			root_destroy(root, "map_init(): read()", errno);
-		}
-		else
-		{
-			buf[ret] = 0;
-			file_parse(root, &file, buf, fd);
-		}
-	}
+	file_read(root, &file, buf, fd);
 
 	close(fd);
 	map_read(root, file);
