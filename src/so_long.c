@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/09 22:27:19 by lrandria         ###   ########.fr       */
+/*   Updated: 2021/06/10 01:01:59 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	game_destroy(t_game *game)
 
 	if (game != 0)
 	{
-		if (game->obj_pos != 0)
-			free(game->obj_pos);
+		if (game->coll != 0)
+			free(game->coll);
 		if (game->map != 0)
 		{
 			i = 0;
@@ -74,19 +74,6 @@ void	root_destroy(t_root *root, char *errmsg, int errnum)
 		free(root);
 	}
 	die(errmsg, errnum);
-}
-
-int		count_char(char *s, int c)
-{
-	int				count;
-	int				i;
-
-	count = 0;
-	i = 0;
-	while (s[i])
-		if (s[i++] == c)
-			count++;
-	return (count);
 }
 
 void	map_width(t_root *root, char *file)
@@ -117,43 +104,74 @@ void	map_height(t_root *root, char *file)
 	}
 }
 
+static int	isborder(t_root *root, int i)
+{
+	if (i < root->game->width ||
+		i > (root->game->width + 1) * (root->game->height - 1) ||
+		i % (root->game->width + 1) == 0 ||
+		i % (root->game->width + 1) == root->game->width - 1)
+		return (1);
+	return (0);
+}
+
+static void	isvalid(t_root *root, int symbol)
+{
+	if (symbol == 'P')
+		root->game->count_player++;
+	else if (symbol == 'E')
+		root->game->count_exit++;
+	else if (symbol == 'C')
+		root->game->count_coll++;
+	else if (symbol == '1' || symbol == '0')	
+		return ;
+	else
+		root_destroy(root, "map content is invalid", 0);
+}
+
 void	map_isvalid(t_root *root, char *file)
 {
-	int				count_player;
-	int				count_exit;
 	int				i;
 
-	count_player = 0;
-	count_exit = 0;
 	i = -1;
 	while (file[++i] != 0)
 	{
 		if (file[i] == '\n')
 			continue ;
-		if (i < root->game->width ||
-			i > (root->game->width + 1) * (root->game->height - 1) ||
-			i % (root->game->width + 1) == 0 ||
-			i % (root->game->width + 1) == root->game->width - 1)
+		if (isborder(root, i))
 		{
 			if (file[i] != '1')
 				root_destroy(root, "map isn't surrounded by walls", 0);
 		}
 		else
-		{
-			if (file[i] == 'P')
-				count_player++;
-			else if (file[i] == 'E')
-				count_exit++;
-			else if (file[i] == 'C')
-				root->game->obj_count++;
-			else if (file[i] == '1' || file[i] == '0')	
-				continue ;
-			else
-				root_destroy(root, "map content is invalid", 0);
-		}
+			isvalid(root, file[i]);
 	}
-	if (count_player != 1 || count_exit != 1 || root->game->obj_count < 1)
+	if (root->game->count_player != 1 ||
+		root->game->count_exit != 1 ||
+		root->game->count_coll < 1)
 		root_destroy(root, "map configuration is invalid", 0);
+}
+
+static void	get_coord(t_root *root, char *file, int k, int *obj)
+{
+	if (file[k] == 'P')
+	{
+		root->game->player.x = k % (root->game->width + 1);
+		root->game->player.y = k / (root->game->width + 1);
+		file[k] = '0';
+	}
+	else if (file[k] == 'E')
+	{
+		root->game->exit.x = k % (root->game->width + 1);
+		root->game->exit.y = k / (root->game->width + 1);
+		file[k] = '0';
+	}
+	else if (file[k] == 'C')
+	{
+		root->game->coll[*obj].x = k % (root->game->width + 1);
+		root->game->coll[*obj].y = k / (root->game->width + 1);
+		file[k] = '0';
+		(*obj)++;
+	}
 }
 
 void	map_parsing(t_root *root, char *file)
@@ -163,16 +181,10 @@ void	map_parsing(t_root *root, char *file)
 	int				k;
 	int				obj;
 
-	root->game->obj_pos = (t_coord *)malloc(sizeof(t_coord) * root->game->obj_count);
-	if (root->game->obj_pos == 0)
-		root_destroy(root, "map_parsing(): malloc()", errno);
-	root->game->map = (int **)malloc(sizeof(int *) * root->game->height);
-	if (root->game->map == 0)
-		root_destroy(root, "map_parsing(): malloc()", errno);
 	obj = 0;
 	k = 0;
-	j = 0;
-	while (j < root->game->height)
+	j = -1;
+	while (++j < root->game->height)
 	{
 		root->game->map[j] = (int *)malloc(sizeof(int) * root->game->width);
 		if (root->game->map[j] == 0)
@@ -184,29 +196,10 @@ void	map_parsing(t_root *root, char *file)
 		i = 0;
 		while (i < root->game->width)
 		{
-			if (file[k] == 'P')
-			{
-				root->game->player_pos.x = k % (root->game->width + 1);
-				root->game->player_pos.y = k / (root->game->width + 1);
-				file[k] = '0';
-			}
-			if (file[k] == 'E')
-			{
-				root->game->exit_pos.x = k % (root->game->width + 1);
-				root->game->exit_pos.y = k / (root->game->width + 1);
-				file[k] = '0';
-			}
-			if (file[k] == 'C')
-			{
-				root->game->obj_pos[obj].x = k % (root->game->width + 1);
-				root->game->obj_pos[obj].y = k / (root->game->width + 1);
-				obj++;
-				file[k] = '0';
-			}
+			get_coord(root, file, k, &obj);
 			root->game->map[j][i++] = file[k++] - 48;
 		}
 		k++;
-		j++;
 	}
 }
 
@@ -215,26 +208,79 @@ void	map_read(t_root *root, char *file)
 	map_width(root, file);
 	map_height(root, file);
 	map_isvalid(root, file);
+	root->game->coll =
+		(t_coord *)malloc(sizeof(t_coord) * root->game->count_coll);
+	if (root->game->coll == 0)
+		root_destroy(root, "map_parsing(): malloc()", errno);
+	root->game->map = (int **)malloc(sizeof(int *) * root->game->height);
+	if (root->game->map == 0)
+		root_destroy(root, "map_parsing(): malloc()", errno);
 	map_parsing(root, file);
 }
 
-void	map_init(t_root *root, char *filename)
+static char	*file_init(t_root *root, int fd)
 {
-	int				fd;
 	char			*file;
-	char			buf[1024 + 1];
-	int				ret;
-	char			*tmp;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		root_destroy(root, filename, errno);
 	file = ft_calloc(1, 1);
 	if (file == 0)
 	{
 		close(fd);
 		root_destroy(root, "map_init(): ft_calloc()", errno);
 	}
+	return (file);
+}
+
+static void	file_parse(t_root *root, char **file, char buf[], int fd)
+{
+	char			*tmp;
+
+	tmp = ft_strjoin(*file, buf);
+	free(*file);
+	*file = tmp;
+	if (*file == 0)
+	{
+		close(fd);
+		root_destroy(root, "map_init(): ft_strjoin()", errno);
+	}
+}
+
+// static void	file_read(t_root * root, char *file, char buf[], int fd)
+// {
+// 	int				ret;
+
+// 	ret = 1;
+// 	while (ret != 0)
+// 	{
+// 		ret = read(fd, buf, 1024);
+// 		if (ret == -1)
+// 		{
+// 			free(file);
+// 			close(fd);
+// 			root_destroy(root, "map_init(): read()", errno);
+// 		}
+// 		else
+// 		{
+// 			buf[ret] = 0;
+// 			file_parse(root, &file, buf, fd);
+// 		}
+// 	}
+// }
+
+void	map_init(t_root *root, char *filename)
+{
+	int				fd;
+	char			*file;
+	char			buf[1024 + 1];
+
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		root_destroy(root, filename, errno);
+	file = file_init(root, fd);
+
+	// file_read(root, file, buf, fd);
+	int				ret;
+
 	ret = 1;
 	while (ret != 0)
 	{
@@ -248,16 +294,10 @@ void	map_init(t_root *root, char *filename)
 		else
 		{
 			buf[ret] = 0;
-			tmp = ft_strjoin(file, buf);
-			free(file);
-			file = tmp;
-			if (file == 0)
-			{
-				close(fd);
-				root_destroy(root, "map_init(): ft_strjoin()", errno);
-			}
+			file_parse(root, &file, buf, fd);
 		}
 	}
+
 	close(fd);
 	map_read(root, file);
 	free(file);
@@ -269,8 +309,12 @@ void	game_init(t_root *root, char *filename)
 	if (root->game == 0)
 		root_destroy(root, "game_init(): malloc()", errno);
 	root->game->map = 0;
-	root->game->obj_pos = 0;
-	root->game->obj_count = 0;
+	root->game->coll = 0;
+	root->game->count_coll = 0;
+	root->game->count_exit = 0;
+	root->game->count_player = 0;
+	root->game->player_move = 0;
+	root->game->player_coll = 0;
 	map_init(root, filename);
 }
 
@@ -289,7 +333,7 @@ t_root	*root_init(char *filename)
 	root->mlx = mlx_init();
 	if (root->mlx == 0)
 		root_destroy(root, "mlx_init(): can't load mlx", 0);
-	root->mlx_win = mlx_new_window(root->mlx, 1920, 1080, "Hello world!");
+	root->mlx_win = mlx_new_window(root->mlx, 1920, 1080, "so_long");
 	if (root->mlx_win == 0)
 		root_destroy(root, "mlx_new_window(): can't create a window", 0);
 	root->mlx_img = mlx_new_image(root->mlx, 1920, 1080);
@@ -297,8 +341,6 @@ t_root	*root_init(char *filename)
 		root_destroy(root, "mlx_new_image(): can't create an image", 0);
 	return (root);
 }
-
-
 
 int    key_hook(int keycode, t_root *root)
 {
@@ -310,14 +352,19 @@ int    key_hook(int keycode, t_root *root)
 	return (0);
 }
 
+void	draw(t_root *root)
+{
+	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
+}
+
 int    main(int ac, char *av[])
 {
 	t_root          *root;
 
 	if (ac != 2)
-		die("invalid number arguments", 0);
+		die("invalid number of arguments", 0);
 	root = root_init(av[1]);
-	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
+	draw(root);
 	mlx_hook(root->mlx_win, 2, (1L << 0), &key_hook, root);
 	mlx_loop(root->mlx);
 	return (0);
