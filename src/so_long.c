@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/10 17:11:28 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/10 22:42:46 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ void	map_read(t_root *root, char *file)
 	root->game->map = (int **)malloc(sizeof(int *) * root->game->height);
 	if (root->game->map == 0)
 		root_destroy(root, "map_parsing(): malloc()", errno);
+	ft_putendl_fd(file, 1);
 	map_parsing(root, file);
 }
 
@@ -245,7 +246,7 @@ static void	file_parse(t_root *root, char **file, char buf[], int fd)
 	}
 }
 
-static void	file_read(t_root * root, char **file, char buf[], int fd)
+static void	file_read(t_root *root, char **file, char buf[], int fd)
 {
 	int				ret;
 
@@ -277,9 +278,7 @@ void	map_init(t_root *root, char *filename)
 	if (fd == -1)
 		root_destroy(root, filename, errno);
 	file = file_init(root, fd);
-
 	file_read(root, &file, buf, fd);
-
 	close(fd);
 	map_read(root, file);
 	free(file);
