@@ -6,7 +6,7 @@
 /*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:35:43 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/09 21:38:03 by lrandria         ###   ########.fr       */
+/*   Updated: 2021/06/09 23:08:42 by lrandria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ typedef struct s_game
 	int			**map;
 	int			height;
 	int			width;
-	t_coord		player_pos;
+	t_coord		player;
 	int			player_move;
 	int			player_coll;
-	t_coord		exit_pos;
-	t_coord		*obj_pos;
-	int			obj_count;
+	t_coord		exit;
+	t_coord		*coll;
+	int			count_coll;
+	int			count_exit;
+	int			count_player;
 }				t_game;
 
 typedef struct s_root
