@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/10 01:01:59 by lrandria         ###   ########.fr       */
+/*   Updated: 2021/06/10 17:09:42 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,10 +333,10 @@ t_root	*root_init(char *filename)
 	root->mlx = mlx_init();
 	if (root->mlx == 0)
 		root_destroy(root, "mlx_init(): can't load mlx", 0);
-	root->mlx_win = mlx_new_window(root->mlx, 1920, 1080, "so_long");
+	root->mlx_win = mlx_new_window(root->mlx, 640, 480, "so_long");
 	if (root->mlx_win == 0)
 		root_destroy(root, "mlx_new_window(): can't create a window", 0);
-	root->mlx_img = mlx_new_image(root->mlx, 1920, 1080);
+	root->mlx_img = mlx_new_image(root->mlx, 640, 480);
 	if (root->mlx_img == 0)
 		root_destroy(root, "mlx_new_image(): can't create an image", 0);
 	return (root);
