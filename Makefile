@@ -10,7 +10,7 @@ SRC			=	src/mlx_utils.c \
 all:		obj $(NAME)
 
 $(NAME):	$(OBJ)
-			make -C minilibx-linux
+			make -C mlx
 			make -C libft
 			$(CC) $(FLAGS) -fsanitize=address -o $@ $^ $(LIB)
 
