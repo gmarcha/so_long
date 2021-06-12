@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 01:12:21 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 01:32:12 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,6 +384,7 @@ t_root	*root_init(char *filename)
 
 void	draw_square(t_root *root, t_img *img, int x, int y)
 {
+	unsigned int	color;
 	int				i;
 	int				j;
 
@@ -393,14 +394,16 @@ void	draw_square(t_root *root, t_img *img, int x, int y)
 		i = 0;
 		while (i < 40)
 		{
-			mlx_draw_pixel(root->mlx_img, x + i, y + j, mlx_get_pixel(img, i, j));
+			color = mlx_get_pixel(img, i, j);
+			if (color != mlx_rgb_to_int(0, 255, 255, 255))
+				mlx_draw_pixel(root->mlx_img, x + i, y + j, color);
 			i++;
 		}
 		j++;
 	}
 }
 
-void	draw(t_root *root)
+void	draw_map(t_root *root)
 {
 	int				i;
 	int				j;
@@ -419,6 +422,31 @@ void	draw(t_root *root)
 		}
 		j++;
 	}
+}
+
+void	draw_env(t_root *root)
+{
+	int				i;
+	int				j;
+
+	j = 0;
+	while (j < root->game->height)
+	{
+		i = 0;
+		while (i < root->game->width)
+		{
+			if (root->game->player.x == i && root->game->player.y == j)
+				draw_square(root, root->player, i * 40, j * 40);
+			i++;
+		}
+		j++;
+	}
+}
+
+void	draw(t_root *root)
+{
+	draw_map(root);
+	draw_env(root);
 	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
 }
 
