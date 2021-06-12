@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 01:10:02 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 01:11:22 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,8 +384,8 @@ t_root	*root_init(char *filename)
 
 void	draw_square(t_root *root, t_img *img, int x, int y)
 {
-	size_t			i;
-	size_t			j;
+	int				i;
+	int				j;
 
 	j = 0;
 	while (j < 40)
@@ -402,8 +402,8 @@ void	draw_square(t_root *root, t_img *img, int x, int y)
 
 void	draw(t_root *root)
 {
-	size_t			i;
-	size_t			j;
+	int				i;
+	int				j;
 
 	j = 0;
 	while (j < root->game->height)
