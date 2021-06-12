@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/12 18:00:55 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/12 18:03:17 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,21 +363,18 @@ int    key_hook(int keycode, t_root *root)
 
 int	destroy_hook(int keycode, t_root *root)
 {
-	if (keycode > 0)
+	ft_putstr_fd("Thanks for playing!\nhttps://github.com/gmarcha\n", 1);
+	if (root != 0)
 	{
-		ft_putstr_fd("Thanks for playing!\nhttps://github.com/gmarcha\n", 1);
-		if (root != 0)
-		{
-			if (root->mlx_img != 0)
-				mlx_destroy_image(root->mlx, root->mlx_img);
-			if (root->mlx_win != 0)
-				mlx_destroy_window(root->mlx, root->mlx_win);
-			if (root->mlx != 0)
-				mlx_destroy_display(root->mlx);
-			if (root->game != 0)
-				game_destroy(root->game);
-			free(root);
-		}
+		if (root->mlx_img != 0)
+			mlx_destroy_image(root->mlx, root->mlx_img);
+		if (root->mlx_win != 0)
+			mlx_destroy_window(root->mlx, root->mlx_win);
+		if (root->mlx != 0)
+			mlx_destroy_display(root->mlx);
+		if (root->game != 0)
+			game_destroy(root->game);
+		free(root);
 	}
 	return (0);
 }
