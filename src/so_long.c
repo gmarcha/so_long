@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 01:11:22 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 01:12:21 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -406,10 +406,10 @@ void	draw(t_root *root)
 	int				j;
 
 	j = 0;
-	while (j < root->game->height)
+	while (j < root->game->height - 1)
 	{
 		i = 0;
-		while (i < root->game->width)
+		while (i < root->game->width - 1)
 		{
 			if (root->game->map[i][j] == 1)
 				draw_square(root, root->wall, i * 40, j * 40);
