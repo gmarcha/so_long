@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 01:06:45 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 01:10:02 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,7 +402,23 @@ void	draw_square(t_root *root, t_img *img, int x, int y)
 
 void	draw(t_root *root)
 {
-	draw_square(root, root->wall, 0, 0);
+	size_t			i;
+	size_t			j;
+
+	j = 0;
+	while (j < root->game->height)
+	{
+		i = 0;
+		while (i < root->game->width)
+		{
+			if (root->game->map[i][j] == 1)
+				draw_square(root, root->wall, i * 40, j * 40);
+			else
+				draw_square(root, root->ground, i * 40, j * 40);
+			i++;
+		}
+		j++;
+	}
 	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
 }
 
