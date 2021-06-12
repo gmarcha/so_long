@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:35:43 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/12 23:38:10 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 00:19:55 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ typedef struct s_root
 	void			*mlx_win;
 	t_img			*mlx_img;
 	t_game			*game;
+	t_img			*player;
+	t_img			*exit;
+	t_img			*coll;
+	t_img			*wall;
+	t_img			*ground;
 }				t_root;
 
 void			mlx_draw_pixel(t_img *mlx_img, int x, int y, int color);
