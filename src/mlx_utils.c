@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:38:53 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 00:55:26 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 00:57:42 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 unsigned int	mlx_get_pixel(t_img *img, int x, int y)
 {
-	return (
-		img->data +
-		(ray->text_x * img->bpp / 8
-		+ ray->text_y * img->size_line));
+	return (img->data + (x * img->bpp / 8 + y * img->size_line));
 }
 
 void    mlx_draw_pixel(t_img *mlx_img, int x, int y, int color)
