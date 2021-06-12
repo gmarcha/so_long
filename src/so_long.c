@@ -351,7 +351,7 @@ void	draw(t_root *root)
 	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
 }
 
-int    key_hook(int keycode, t_root *root)
+int    key_press(int keycode, t_root *root)
 {
 	if (keycode == 65307)
 	{
@@ -361,21 +361,19 @@ int    key_hook(int keycode, t_root *root)
 	return (0);
 }
 
+int	key_release(int keycode, t_root *root)
+{
+	(void)keycode;
+	(void)root;
+	return (0);
+}
+
 int	destroy_hook(int keycode, t_root *root)
 {
+	(void)keycode;
+	(void)root;
 	ft_putstr_fd("Thanks for playing!\nhttps://github.com/gmarcha\n", 1);
-	if (root != 0)
-	{
-		// if (root->mlx_img != 0)
-		// 	mlx_destroy_image(root->mlx, root->mlx_img);
-		if (root->mlx_win != 0)
-			mlx_destroy_window(root->mlx, root->mlx_win);
-		// if (root->mlx != 0)
-		// 	mlx_destroy_display(root->mlx);
-		if (root->game != 0)
-			game_destroy(root->game);
-		free(root);
-	}
+	root_destroy(0, 0, 0);
 	return (0);
 }
 
@@ -387,8 +385,9 @@ int    main(int ac, char *av[])
 		die("invalid number of arguments", 0);
 	root = root_init(av[1]);
 	draw(root);
-	mlx_hook(root->mlx_win, 2, 1L << 0, &key_hook, root);
-	mlx_hook(root->mlx_win, 17, 1L << 17, &destroy_hook, root);
+	mlx_hook(root->mlx_win, 2, 1L << 0, key_press, root);
+	mlx_hook(root->mlx_win, 3, 1L << 1, key_release, root);
+	mlx_hook(root->mlx_win, 17, 1L << 17, destroy_hook, root);
 	mlx_loop(root->mlx);
 	return (0);
 }
