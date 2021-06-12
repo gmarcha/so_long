@@ -406,12 +406,12 @@ void	draw(t_root *root)
 	int				j;
 
 	j = 0;
-	while (j < root->game->height - 1)
+	while (j < root->game->height)
 	{
 		i = 0;
-		while (i < root->game->width - 1)
+		while (i < root->game->width)
 		{
-			if (root->game->map[i][j] == 1)
+			if (root->game->map[j][i] == 1)
 				draw_square(root, root->wall, i * 40, j * 40);
 			else
 				draw_square(root, root->ground, i * 40, j * 40);
