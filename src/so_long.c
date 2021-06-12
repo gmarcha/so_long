@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/12 17:42:10 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/12 17:44:25 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	map_isvalid(t_root *root, char *file)
 			}
 		}
 		else
-			isvalid(root, file[i]);
+			isvalid(root, file, i);
 	}
 	if (root->game->count_player != 1 ||
 		root->game->count_exit != 1 ||
@@ -347,7 +347,7 @@ t_root	*root_init(char *filename)
 
 void	draw(t_root *root)
 {
-	mlx_draw_pixel();
+	// mlx_draw_pixel();
 	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
 }
 
