@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrandria <lrandria@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:35:43 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/09 23:08:42 by lrandria         ###   ########.fr       */
+/*   Updated: 2021/06/12 23:38:10 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ typedef struct s_game
 
 typedef struct s_root
 {
-    void            *mlx;
-    void            *mlx_win;
-    t_img            *mlx_img;
+	void			*mlx;
+	void			*mlx_win;
+	t_img			*mlx_img;
 	t_game			*game;
-}                t_root;
+}				t_root;
 
 void			mlx_draw_pixel(t_img *mlx_img, int x, int y, int color);
 unsigned int	mlx_rgb_to_int(int o, int r, int g, int b);
