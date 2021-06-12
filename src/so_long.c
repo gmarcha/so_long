@@ -336,10 +336,10 @@ t_root	*root_init(char *filename)
 	root->mlx = mlx_init();
 	if (root->mlx == 0)
 		root_destroy(root, "mlx_init(): can't load mlx", 0);
-	root->mlx_win = mlx_new_window(root->mlx, 640, 480, "so_long");
+	root->mlx_win = mlx_new_window(root->mlx, root->game->width * 40, root->game->height * 40, "so_long");
 	if (root->mlx_win == 0)
 		root_destroy(root, "mlx_new_window(): can't create a window", 0);
-	root->mlx_img = mlx_new_image(root->mlx, 640, 480);
+	root->mlx_img = mlx_new_image(root->mlx, root->game->width * 40, root->game->height * 40);
 	if (root->mlx_img == 0)
 		root_destroy(root, "mlx_new_image(): can't create an image", 0);
 	return (root);
@@ -351,10 +351,10 @@ void	draw_square(t_root *root)
 	size_t			j;
 
 	j = 0;
-	while (j < 20)
+	while (j < 40)
 	{
 		i = 0;
-		while (i < 20)
+		while (i < 40)
 		{
 			mlx_draw_pixel(root->mlx_img, i, j, mlx_rgb_to_int(0, 34, 183, 235));
 			i++;
@@ -365,7 +365,7 @@ void	draw_square(t_root *root)
 
 void	draw(t_root *root)
 {
-	// mlx_draw_pixel();
+	draw_square(root);
 	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
 }
 
