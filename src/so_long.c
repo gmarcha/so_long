@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 01:37:45 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 01:38:37 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,7 +432,7 @@ void	draw_map(t_root *root)
 				draw_square(root, root->wall, i * 40, j * 40);
 			else
 				draw_square(root, root->ground, i * 40, j * 40);
-			draw_env(root);
+			draw_env(root, i, j);
 			i++;
 		}
 		j++;
