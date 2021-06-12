@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 00:42:50 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 01:04:18 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -382,7 +382,7 @@ t_root	*root_init(char *filename)
 	return (root);
 }
 
-void	draw_square(t_root *root)
+void	draw_square(t_root *root, t_img *img, int x, int y)
 {
 	size_t			i;
 	size_t			j;
@@ -393,7 +393,7 @@ void	draw_square(t_root *root)
 		i = 0;
 		while (i < 40)
 		{
-			mlx_draw_pixel(root->mlx_img, i, j, mlx_rgb_to_int(0, 34, 183, 235));
+			mlx_draw_pixel(root->mlx_img, x + i, j + i, mlx_get_color(img, i, j));
 			i++;
 		}
 		j++;
@@ -402,7 +402,7 @@ void	draw_square(t_root *root)
 
 void	draw(t_root *root)
 {
-	draw_square(root);
+	draw_square(root, root->wall, 0, 0);
 	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
 }
 
