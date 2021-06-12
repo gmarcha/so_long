@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 00:41:19 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 00:42:50 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,11 +345,11 @@ void	texture_load(t_root *root, t_img **img, char *path)
 
 void	texture_init(t_root *root)
 {
-	texture_load(root, &root->player, "img/player.xpm");
-	texture_load(root, &root->exit, "img/exit.xpm");
-	texture_load(root, &root->coll, "img/coll.xpm");
-	texture_load(root, &root->wall, "img/wall.xpm");
-	texture_load(root, &root->ground, "img/ground.xpm");
+	texture_load(root, &root->player, "./img/player.xpm");
+	texture_load(root, &root->exit, "./img/moto.xpm");
+	texture_load(root, &root->coll, "./img/gas.xpm");
+	texture_load(root, &root->wall, "./img/wall.xpm");
+	texture_load(root, &root->ground, "./img/sand.xpm");
 }
 
 t_root	*root_init(char *filename)
