@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 01:32:12 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 01:37:45 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -403,6 +403,20 @@ void	draw_square(t_root *root, t_img *img, int x, int y)
 	}
 }
 
+void	draw_env(t_root *root, int i, int j)
+{
+	int				k;
+
+	if (root->game->exit.x == i && root->game->exit.y == j)
+		draw_square(root, root->exit, i * 40, j * 40);
+	k = -1;
+	while (++k < root->game->count_coll)
+		if (root->game->coll[k].x == i && root->game->coll[k].y == j)
+			draw_square(root, root->coll, i * 40, j * 40);
+	if (root->game->player.x == i && root->game->player.y == j)
+		draw_square(root, root->player, i * 40, j * 40);
+}
+
 void	draw_map(t_root *root)
 {
 	int				i;
@@ -418,25 +432,7 @@ void	draw_map(t_root *root)
 				draw_square(root, root->wall, i * 40, j * 40);
 			else
 				draw_square(root, root->ground, i * 40, j * 40);
-			i++;
-		}
-		j++;
-	}
-}
-
-void	draw_env(t_root *root)
-{
-	int				i;
-	int				j;
-
-	j = 0;
-	while (j < root->game->height)
-	{
-		i = 0;
-		while (i < root->game->width)
-		{
-			if (root->game->player.x == i && root->game->player.y == j)
-				draw_square(root, root->player, i * 40, j * 40);
+			draw_env(root);
 			i++;
 		}
 		j++;
@@ -446,7 +442,6 @@ void	draw_env(t_root *root)
 void	draw(t_root *root)
 {
 	draw_map(root);
-	draw_env(root);
 	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
 }
 
