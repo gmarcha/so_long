@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/12 17:44:25 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/12 17:46:10 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,11 +363,8 @@ int    key_hook(int keycode, t_root *root)
 
 int	destroy_hook(int keycode, t_root *root)
 {
-	if (keycode == 53)
-	{
-		ft_putstr_fd("Thanks for playing!\nhttps://github.com/gmarcha\n", 1);
-		root_destroy(root, 0, 0);
-	}
+	ft_putstr_fd("Thanks for playing!\nhttps://github.com/gmarcha\n", 1);
+	root_destroy(root, 0, 0);
 	return (0);
 }
 
