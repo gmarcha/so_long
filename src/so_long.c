@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/10 22:42:46 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/12 17:42:10 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ void	map_width(t_root *root, char *file)
 	while (file[root->game->width] && file[root->game->width] != '\n')
 		root->game->width++;
 	if (root->game->width == 0 || file[root->game->width] == 0)
+	{
+		free(file);
 		root_destroy(root, "map file is invalid", 0);
+	}
 }
 
 void	map_height(t_root *root, char *file)
@@ -98,7 +101,10 @@ void	map_height(t_root *root, char *file)
 		while (file[i + j] != 0 && file[i + j] != '\n')
 			j++;
 		if (root->game->width != j)
+		{
+			free(file);
 			root_destroy(root, "map format is invalid", 0);
+		}
 		i += root->game->width + 1;
 		root->game->height++;
 	}
@@ -114,18 +120,21 @@ static int	isborder(t_root *root, int i)
 	return (0);
 }
 
-static void	isvalid(t_root *root, int symbol)
+static void	isvalid(t_root *root, char *file, int i)
 {
-	if (symbol == 'P')
+	if (file[i] == 'P')
 		root->game->count_player++;
-	else if (symbol == 'E')
+	else if (file[i] == 'E')
 		root->game->count_exit++;
-	else if (symbol == 'C')
+	else if (file[i] == 'C')
 		root->game->count_coll++;
-	else if (symbol == '1' || symbol == '0')	
+	else if (file[i] == '1' || file[i] == '0')	
 		return ;
 	else
+	{
+		free(file);
 		root_destroy(root, "map content is invalid", 0);
+	}
 }
 
 void	map_isvalid(t_root *root, char *file)
@@ -140,7 +149,10 @@ void	map_isvalid(t_root *root, char *file)
 		if (isborder(root, i))
 		{
 			if (file[i] != '1')
+			{
+				free(file);
 				root_destroy(root, "map isn't surrounded by walls", 0);
+			}
 		}
 		else
 			isvalid(root, file[i]);
@@ -148,7 +160,10 @@ void	map_isvalid(t_root *root, char *file)
 	if (root->game->count_player != 1 ||
 		root->game->count_exit != 1 ||
 		root->game->count_coll < 1)
+	{
+		free(file);
 		root_destroy(root, "map configuration is invalid", 0);
+	}
 }
 
 static void	get_coord(t_root *root, char *file, int k, int *obj)
@@ -191,6 +206,7 @@ void	map_parsing(t_root *root, char *file)
 		{
 			free_matrix(root->game->map, j);
 			root->game->map = 0;
+			free(file);
 			root_destroy(root, "map_parsing(): malloc()", errno);
 		}
 		i = 0;
@@ -211,25 +227,18 @@ void	map_read(t_root *root, char *file)
 	root->game->coll =
 		(t_coord *)malloc(sizeof(t_coord) * root->game->count_coll);
 	if (root->game->coll == 0)
+	{
+		free(file);
 		root_destroy(root, "map_parsing(): malloc()", errno);
+	}
 	root->game->map = (int **)malloc(sizeof(int *) * root->game->height);
 	if (root->game->map == 0)
+	{
+		free(file);
 		root_destroy(root, "map_parsing(): malloc()", errno);
+	}
 	ft_putendl_fd(file, 1);
 	map_parsing(root, file);
-}
-
-static char	*file_init(t_root *root, int fd)
-{
-	char			*file;
-
-	file = ft_calloc(1, 1);
-	if (file == 0)
-	{
-		close(fd);
-		root_destroy(root, "map_init(): ft_calloc()", errno);
-	}
-	return (file);
 }
 
 static void	file_parse(t_root *root, char **file, char buf[], int fd)
@@ -266,6 +275,19 @@ static void	file_read(t_root *root, char **file, char buf[], int fd)
 			file_parse(root, file, buf, fd);
 		}
 	}
+}
+
+static char	*file_init(t_root *root, int fd)
+{
+	char			*file;
+
+	file = ft_calloc(1, 1);
+	if (file == 0)
+	{
+		close(fd);
+		root_destroy(root, "map_init(): ft_calloc()", errno);
+	}
+	return (file);
 }
 
 void	map_init(t_root *root, char *filename)
@@ -323,6 +345,12 @@ t_root	*root_init(char *filename)
 	return (root);
 }
 
+void	draw(t_root *root)
+{
+	mlx_draw_pixel();
+	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
+}
+
 int    key_hook(int keycode, t_root *root)
 {
 	if (keycode == 65307)
@@ -333,9 +361,14 @@ int    key_hook(int keycode, t_root *root)
 	return (0);
 }
 
-void	draw(t_root *root)
+int	destroy_hook(int keycode, t_root *root)
 {
-	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
+	if (keycode == 53)
+	{
+		ft_putstr_fd("Thanks for playing!\nhttps://github.com/gmarcha\n", 1);
+		root_destroy(root, 0, 0);
+	}
+	return (0);
 }
 
 int    main(int ac, char *av[])
@@ -346,7 +379,8 @@ int    main(int ac, char *av[])
 		die("invalid number of arguments", 0);
 	root = root_init(av[1]);
 	draw(root);
-	mlx_hook(root->mlx_win, 2, (1L << 0), &key_hook, root);
+	mlx_hook(root->mlx_win, 2, 1L << 0, &key_hook, root);
+	mlx_hook(root->mlx_win, 17, 1L << 17, &destroy_hook, root);
 	mlx_loop(root->mlx);
 	return (0);
 }
