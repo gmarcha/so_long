@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/12 18:10:00 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/12 23:37:56 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,6 +343,24 @@ t_root	*root_init(char *filename)
 	if (root->mlx_img == 0)
 		root_destroy(root, "mlx_new_image(): can't create an image", 0);
 	return (root);
+}
+
+void	draw_square(t_root *root)
+{
+	size_t			i;
+	size_t			j;
+
+	j = 0;
+	while (j < 20)
+	{
+		i = 0;
+		while (i < 20)
+		{
+			mlx_draw_pixel(root->mlx_img, i, j, mlx_rgb_to_int(0, 34, 183, 235));
+			i++;
+		}
+		j++;
+	}
 }
 
 void	draw(t_root *root)
