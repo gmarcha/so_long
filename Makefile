@@ -26,7 +26,7 @@ SRC			=	src/die.c \
 all:		$(MLX) obj $(NAME)
 
 $(NAME):	$(OBJ)
-			make -C libft
+			make -s -C libft
 			$(CC) $(FLAGS) -fsanitize=address -o $@ $^ $(LIB)
 
 $(MLX):
