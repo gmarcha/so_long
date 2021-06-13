@@ -26,12 +26,12 @@ SRC			=	src/die.c \
 all:		$(MLX) obj $(NAME)
 
 $(NAME):	$(OBJ)
-			make -s -C libft
+			make -C libft
 			$(CC) $(FLAGS) -fsanitize=address -o $@ $^ $(LIB)
 
 $(MLX):
 			@echo " [ .. ] | Installing minilibx.."
-			@make -C mlx
+			@make -s -C mlx
 			@echo " [ OK ] | Minilibx is ready!"
 
 obj:
