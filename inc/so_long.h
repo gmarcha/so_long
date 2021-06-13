@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:35:43 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 01:47:40 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 04:11:48 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,41 @@ typedef struct s_root
 	t_img			*ground;
 }				t_root;
 
+void			draw(t_root *root);
+
+int				key_press(int keycode, t_root *root);
+int				key_release(int keycode, t_root *root);
+int				destroy_hook(int keycode, t_root *root);
+
+void			game_destroy(t_game *game);
+
+void			game_init(t_root *root, char *filename);
+
+void			map_height(t_root *root, char *file);
+
+void			map_init(t_root *root, char *filename);
+
+void			map_isvalid(t_root *root, char *file);
+
+void			map_parsing(t_root *root, char *file);
+
+void			map_read(t_root *root, char *file);
+
+void			map_width(t_root *root, char *file);
+
 unsigned int	mlx_get_pixel(t_img *img, int x, int y);
 void			mlx_draw_pixel(t_img *mlx_img, int x, int y, int color);
 unsigned int	mlx_rgb_to_int(int o, int r, int g, int b);
+
+void			move_up(t_root *root, int x, int y);
+void			move_down(t_root *root, int x, int y);
+void			move_left(t_root *root, int x, int y);
+void			move_right(t_root *root, int x, int y);
+
+void			root_destroy(t_root *root, char *errmsg, int errnum);
+
+t_root			*root_init(char *filename);
+
+void			update(t_root *root);
 
 #endif
