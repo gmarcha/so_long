@@ -30,6 +30,5 @@ void	map_read(t_root *root, char *file)
 		free(file);
 		root_destroy(root, "map_parsing(): malloc()", errno);
 	}
-	ft_putendl_fd(file, 1);
 	map_parsing(root, file);
 }
