@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 02:31:00 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 02:45:21 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -453,6 +453,7 @@ void	update(t_root *root)
 {
 	int				x;
 	int				y;
+	int				k;
 
 	x = root->game->player.x;
 	y = root->game->player.y;
@@ -478,6 +479,21 @@ void	update(t_root *root)
 	{
 		root->game->player_move++;
 		ft_putnbr_fd(root->game->player_move, 1);
+		ft_putendl_fd("", 1);
+	}
+	if (root->game->exit.x == root->game->player.x && root->game->exit.y == root->game->player.y)
+		if (root->game->count_coll == root->game->player_coll)
+			root_destroy(root, 0, 0);
+	k = 0;
+	while (k < root->game->count_coll)
+	{
+		if (root->game->coll[k].x == root->game->player.x && root->game->coll[k].y == root->game->player.y)
+		{
+			root->game->coll[k].x = -1;
+			root->game->coll[k].y = -1;
+			root->game->player_coll++;
+		}
+		k++;
 	}
 	draw(root);
 }
