@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 01:38:37 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 02:09:33 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -445,20 +445,58 @@ void	draw(t_root *root)
 	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
 }
 
-int    key_press(int keycode, t_root *root)
+void	update(t_root *root)
+{
+	int				x;
+	int				y;
+
+	x = root->game->player.x;
+	y = root->game->player.y;
+	if (root->game->player_up != 0)
+		if (root->game->map[y - 1][x] == 0)
+			root->game->player.y -= 1;
+	if (root->game->player_down != 0)
+		if (root->game->map[y + 1][x] == 0)
+			root->game->player.y += 1;
+	if (root->game->player_left != 0)
+		if (root->game->map[y][x - 1] == 0)
+			root->game->player.x -= 1;
+	if (root->game->player_right != 0)
+		if (root->game->map[y][x + 1] == 0)
+			root->game->player.x += 1;
+	draw(root);
+}
+
+int	key_press(int keycode, t_root *root)
 {
 	if (keycode == 65307)
 	{
 		ft_putstr_fd("Thanks for playing!\nhttps://github.com/gmarcha\n", 1);
 		root_destroy(root, 0, 0);
 	}
+	if (keycode == 119)
+		root->game->player_up = 1;
+	if (keycode == 115)
+		root->game->player_down = 1;
+	if (keycode == 97)
+		root->game->player_left = 1;
+	if (keycode == 100)
+		root->game->player_right = 1;
+	update(root);
 	return (0);
 }
 
 int	key_release(int keycode, t_root *root)
 {
-	(void)keycode;
-	(void)root;
+	if (keycode == 119)
+		root->game->player_up = 0;
+	if (keycode == 115)
+		root->game->player_down = 0;
+	if (keycode == 97)
+		root->game->player_left = 0;
+	if (keycode == 100)
+		root->game->player_right = 0;
+	update(root);
 	return (0);
 }
 
