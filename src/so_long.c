@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 02:21:50 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 02:31:00 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -474,6 +474,11 @@ void	update(t_root *root)
 	else if (root->game->player_right != 0)
 		if (root->game->map[y][x + 1] == 0)
 			root->game->player.x += 1;
+	if (root->game->player.x != x || root->game->player.y != y)
+	{
+		root->game->player_move++;
+		ft_putnbr_fd(root->game->player_move, 1);
+	}
 	draw(root);
 }
 
