@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 02:09:33 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 02:13:15 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,6 +328,10 @@ void	game_init(t_root *root, char *filename)
 	root->game->count_player = 0;
 	root->game->player_move = 0;
 	root->game->player_coll = 0;
+	root->game->player_up = 0;
+	root->game->player_down = 0;
+	root->game->player_left = 0;
+	root->game->player_right = 0;
 	map_init(root, filename);
 }
 
