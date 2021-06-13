@@ -62,7 +62,7 @@ void	map_parsing(t_root *root, char *file)
 	{
 		root->game->map[j] = (int *)malloc(sizeof(int) * root->game->width);
 		if (root->game->map[j] == 0)
-			free_matrix(root->game->map, j);
+			free_matrix(root, file, root->game->map, j);
 		i = 0;
 		while (i < root->game->width)
 		{
