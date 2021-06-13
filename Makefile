@@ -30,7 +30,9 @@ $(NAME):	$(OBJ)
 			$(CC) $(FLAGS) -fsanitize=address -o $@ $^ $(LIB)
 
 $(MLX):
-			make -C mlx
+			@echo " [ .. ] | Installing minilibx.."
+			@make -C mlx
+			@echo " [ OK ] | Minilibx is ready!"
 
 obj:
 			mkdir -p obj
