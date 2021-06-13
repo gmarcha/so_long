@@ -40,7 +40,7 @@ obj:
 			@mkdir -p obj
 
 obj/%.o:	src/%.c
-			@$(CC) $(FLAGS) $(INC) -o $@ -c $<
+			$(CC) $(FLAGS) $(INC) -o $@ -c $<
 
 clean:
 			@make -s $@ -C libft
