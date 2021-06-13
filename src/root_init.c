@@ -27,7 +27,7 @@ static void	texture_load(t_root *root, t_img **img, char *path)
 static void	texture_init(t_root *root)
 {
 	texture_load(root, &root->player, "./img/player.xpm");
-	texture_load(root, &root->exit, "./img/moto.xpm");
+	texture_load(root, &root->exit, "./img/helicopter.xpm");
 	texture_load(root, &root->coll, "./img/gas.xpm");
 	texture_load(root, &root->wall, "./img/wall.xpm");
 	texture_load(root, &root->ground, "./img/sand.xpm");
