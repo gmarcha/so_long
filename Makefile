@@ -26,13 +26,13 @@ SRC			=	src/die.c \
 all:		$(MLX) obj $(NAME)
 
 $(NAME):	$(OBJ)
-			@echo " [ .. ] | Conpiling libft.."
+			@echo " [ .. ] | Compiling libft.."
 			@make -s -C libft
 			@echo " [ OK ] | Libft ready!"
 			$(CC) $(FLAGS) -fsanitize=address -o $@ $^ $(LIB)
 
 $(MLX):
-			@echo " [ .. ] | Conpiling minilibx.."
+			@echo " [ .. ] | Compiling minilibx.."
 			@make -s -C mlx
 			@echo " [ OK ] | Minilibx ready!"
 
