@@ -35,17 +35,17 @@ $(MLX):
 			@echo " [ OK ] | Minilibx is ready!"
 
 obj:
-			mkdir -p obj
+			@mkdir -p obj
 
 obj/%.o:	src/%.c
 			$(CC) $(FLAGS) $(INC) -o $@ -c $<
 
 clean:
-			make $@ -C libft
+			make -s $@ -C libft
 			rm -rf $(OBJ) obj
 
 fclean:		clean
-			make $@ -C libft
+			make -s $@ -C libft
 			rm -rf $(NAME)
 
 re:			fclean all
