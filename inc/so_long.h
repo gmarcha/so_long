@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:35:43 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 04:11:48 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 04:21:42 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_root
 	t_img			*wall;
 	t_img			*ground;
 }				t_root;
+
+void			die(char *errmsg, int errnum);
 
 void			draw(t_root *root);
 
