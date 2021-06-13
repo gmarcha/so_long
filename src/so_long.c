@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 02:45:21 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 02:46:50 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -481,9 +481,6 @@ void	update(t_root *root)
 		ft_putnbr_fd(root->game->player_move, 1);
 		ft_putendl_fd("", 1);
 	}
-	if (root->game->exit.x == root->game->player.x && root->game->exit.y == root->game->player.y)
-		if (root->game->count_coll == root->game->player_coll)
-			root_destroy(root, 0, 0);
 	k = 0;
 	while (k < root->game->count_coll)
 	{
@@ -496,6 +493,9 @@ void	update(t_root *root)
 		k++;
 	}
 	draw(root);
+	if (root->game->exit.x == root->game->player.x && root->game->exit.y == root->game->player.y)
+		if (root->game->count_coll == root->game->player_coll)
+			root_destroy(root, 0, 0);
 }
 
 int	key_press(int keycode, t_root *root)
