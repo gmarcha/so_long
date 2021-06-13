@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 03:30:47 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 03:40:12 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,42 +456,49 @@ void	draw(t_root *root)
 	mlx_put_image_to_window(root->mlx, root->mlx_win, root->mlx_img, 0, 0);
 }
 
-void	update(t_root *root)
+void	move_up(t_root *root, int x, int y)
 {
-	int				x;
-	int				y;
-	int				k;
+	if (root->game->map[y - 1][x] == 0)
+		root->game->player.y -= 1;
+}
 
-	x = root->game->player.x;
-	y = root->game->player.y;
-	if (root->game->player_up != 0)
-	{
-		if (root->game->map[y - 1][x] == 0)
-			root->game->player.y -= 1;
-	}
-	else if (root->game->player_down != 0)
-	{
-		if (root->game->map[y + 1][x] == 0)
-			root->game->player.y += 1;
-	}
-	else if (root->game->player_left != 0)
-	{
-		if (root->game->map[y][x - 1] == 0)
-			root->game->player.x -= 1;
-	}
-	else if (root->game->player_right != 0)
-		if (root->game->map[y][x + 1] == 0)
-			root->game->player.x += 1;
+void	move_down(t_root *root, int x, int y)
+{
+	if (root->game->map[y + 1][x] == 0)
+		root->game->player.y += 1;
+}
+
+void	move_left(t_root *root, int x, int y)
+{
+	if (root->game->map[y][x - 1] == 0)
+		root->game->player.x -= 1;
+}
+
+void	move_right(t_root *root, int x, int y)
+{
+	if (root->game->map[y][x + 1] == 0)
+		root->game->player.x += 1;
+}
+
+void	had_move(t_root *root, int x, int y)
+{
 	if (root->game->player.x != x || root->game->player.y != y)
 	{
 		root->game->player_move++;
 		ft_putnbr_fd(root->game->player_move, 1);
 		ft_putendl_fd("", 1);
 	}
+}
+
+void	iscollectable(t_root *root)
+{
+	int				k;
+
 	k = 0;
 	while (k < root->game->count_coll)
 	{
-		if (root->game->coll[k].x == root->game->player.x && root->game->coll[k].y == root->game->player.y)
+		if (root->game->coll[k].x == root->game->player.x
+			&& root->game->coll[k].y == root->game->player.y)
 		{
 			root->game->coll[k].x = -1;
 			root->game->coll[k].y = -1;
@@ -499,8 +506,28 @@ void	update(t_root *root)
 		}
 		k++;
 	}
+}
+
+void	update(t_root *root)
+{
+	int				x;
+	int				y;
+
+	x = root->game->player.x;
+	y = root->game->player.y;
+	if (root->game->player_up != 0)
+		move_up(root, x, y);
+	else if (root->game->player_down != 0)
+		move_down(root, x, y);
+	else if (root->game->player_left != 0)
+		move_left(root, x, y);
+	else if (root->game->player_right != 0)
+		move_right(root, x, y);	
+	had_move(root, x, y);
+	iscollectable(root);
 	draw(root);
-	if (root->game->exit.x == root->game->player.x && root->game->exit.y == root->game->player.y)
+	if (root->game->exit.x == root->game->player.x
+		&& root->game->exit.y == root->game->player.y)
 		if (root->game->count_coll == root->game->player_coll)
 			root_destroy(root, 0, 0);
 }
@@ -552,7 +579,7 @@ int	isber(char *file)
 		return (0);
 	if (len < 5)
 		return (0);
-	if (ft_strcmp(file + len - 4, ".ber") != 0))
+	if (ft_strcmp(file + len - 4, ".ber") != 0)
 		return (0);
 	return (1);
 }
