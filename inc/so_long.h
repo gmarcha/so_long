@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:35:43 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 01:45:36 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 01:47:40 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,21 @@ typedef struct s_coord
 
 typedef struct s_game
 {
-	int			**map;
-	int			height;
-	int			width;
-	t_coord		player;
-	int			player_up;
-	int			player_down;
-	int			player_left;
-	int			player_right;
-	int			player_move;
-	int			player_coll;
-	t_coord		exit;
-	t_coord		*coll;
-	int			count_coll;
-	int			count_exit;
-	int			count_player;
+	int				**map;
+	int				height;
+	int				width;
+	t_coord			player;
+	int				player_up;
+	int				player_down;
+	int				player_left;
+	int				player_right;
+	int				player_move;
+	int				player_coll;
+	t_coord			exit;
+	t_coord			*coll;
+	int				count_coll;
+	int				count_exit;
+	int				count_player;
 }				t_game;
 
 typedef struct s_root
