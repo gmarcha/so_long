@@ -6,7 +6,7 @@
 /*   By: gamarcha <gamarcha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 18:36:29 by gamarcha          #+#    #+#             */
-/*   Updated: 2021/06/13 02:20:31 by gamarcha         ###   ########.fr       */
+/*   Updated: 2021/06/13 02:21:50 by gamarcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -457,14 +457,20 @@ void	update(t_root *root)
 	x = root->game->player.x;
 	y = root->game->player.y;
 	if (root->game->player_up != 0)
+	{
 		if (root->game->map[y - 1][x] == 0)
 			root->game->player.y -= 1;
+	}
 	else if (root->game->player_down != 0)
+	{
 		if (root->game->map[y + 1][x] == 0)
 			root->game->player.y += 1;
+	}
 	else if (root->game->player_left != 0)
+	{
 		if (root->game->map[y][x - 1] == 0)
 			root->game->player.x -= 1;
+	}
 	else if (root->game->player_right != 0)
 		if (root->game->map[y][x + 1] == 0)
 			root->game->player.x += 1;
