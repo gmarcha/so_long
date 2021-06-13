@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-static void	free_matrix(int **m, int size)
+static void	free_matrix(t_root *root, char *file, int **m, int size)
 {
 	int				i;
 
@@ -20,6 +20,9 @@ static void	free_matrix(int **m, int size)
 	while (i < size)
 		free(m[i++]);
 	free(m);
+	root->game->map = 0;
+	free(file);
+	root_destroy(root, "map_parsing(): malloc()", errno);
 }
 
 static void	get_coord(t_root *root, char *file, int k, int *obj)
@@ -59,12 +62,7 @@ void	map_parsing(t_root *root, char *file)
 	{
 		root->game->map[j] = (int *)malloc(sizeof(int) * root->game->width);
 		if (root->game->map[j] == 0)
-		{
 			free_matrix(root->game->map, j);
-			root->game->map = 0;
-			free(file);
-			root_destroy(root, "map_parsing(): malloc()", errno);
-		}
 		i = 0;
 		while (i < root->game->width)
 		{

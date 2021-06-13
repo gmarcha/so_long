@@ -54,7 +54,7 @@ void	update(t_root *root)
 	else if (root->game->player_left != 0)
 		move_left(root, x, y);
 	else if (root->game->player_right != 0)
-		move_right(root, x, y);	
+		move_right(root, x, y);
 	had_move(root, x, y);
 	iscollectable(root);
 	draw(root);

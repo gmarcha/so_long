@@ -39,11 +39,11 @@ static void	renderer_init(t_root *root)
 	if (root->mlx == 0)
 		root_destroy(root, "mlx_init(): can't load mlx", 0);
 	root->mlx_win = mlx_new_window(root->mlx, root->game->width * 40,
-		root->game->height * 40, "so_long");
+			root->game->height * 40, "so_long");
 	if (root->mlx_win == 0)
 		root_destroy(root, "mlx_new_window(): can't create a window", 0);
 	root->mlx_img = mlx_new_image(root->mlx, root->game->width * 40,
-		root->game->height * 40);
+			root->game->height * 40);
 	if (root->mlx_img == 0)
 		root_destroy(root, "mlx_new_image(): can't create an image", 0);
 }

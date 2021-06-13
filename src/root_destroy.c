@@ -26,7 +26,7 @@ void	root_destroy(t_root *root, char *errmsg, int errnum)
 			mlx_destroy_image(root->mlx, root->exit);
 		if (root->player != 0)
 			mlx_destroy_image(root->mlx, root->player);
-		if (root->mlx_img != 0)	
+		if (root->mlx_img != 0)
 			mlx_destroy_image(root->mlx, root->mlx_img);
 		if (root->mlx_win != 0)
 			mlx_destroy_window(root->mlx, root->mlx_win);

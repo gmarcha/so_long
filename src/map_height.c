@@ -16,7 +16,7 @@ void	map_height(t_root *root, char *file)
 {
 	int				i;
 	int				j;
-	
+
 	root->game->height = 1;
 	i = root->game->width + 1;
 	while (file[i] != 0)
