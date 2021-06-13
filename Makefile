@@ -5,7 +5,8 @@ MLX			=	mlx/Makefile.gen
 INC			=	-I ./inc -I ./libft -I ./mlx
 LIB			=	-L ./libft -lft -L ./mlx -lmlx -lXext -lX11 -lm -lbsd
 OBJ			=	$(patsubst src%, obj%, $(SRC:.c=.o))
-SRC			=	src/draw.c \
+SRC			=	src/die.c \
+				src/draw.c \
 				src/event.c \
 				src/game_destroy.c \
 				src/game_init.c \
