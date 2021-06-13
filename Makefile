@@ -26,27 +26,31 @@ SRC			=	src/die.c \
 all:		$(MLX) obj $(NAME)
 
 $(NAME):	$(OBJ)
-			make -C libft
+			@echo " [ .. ] | Conpiling libft.."
+			@make -s -C libft
+			@echo " [ OK ] | Libft ready!"
 			$(CC) $(FLAGS) -fsanitize=address -o $@ $^ $(LIB)
 
 $(MLX):
-			@echo " [ .. ] | Installing minilibx.."
+			@echo " [ .. ] | Conpiling minilibx.."
 			@make -s -C mlx
-			@echo " [ OK ] | Minilibx is ready!"
+			@echo " [ OK ] | Minilibx ready!"
 
 obj:
 			@mkdir -p obj
 
 obj/%.o:	src/%.c
-			$(CC) $(FLAGS) $(INC) -o $@ -c $<
+			@$(CC) $(FLAGS) $(INC) -o $@ -c $<
 
 clean:
-			make -s $@ -C libft
-			rm -rf $(OBJ) obj
+			@make -s $@ -C libft
+			@rm -rf $(OBJ) obj
+			@echo "object files removed."
 
 fclean:		clean
-			make -s $@ -C libft
-			rm -rf $(NAME)
+			@make -s $@ -C libft
+			@rm -rf $(NAME)
+			@echo "binary file removed."
 
 re:			fclean all
 
